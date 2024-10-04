@@ -1,6 +1,5 @@
-// screens/InicioScreen.tsx
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,46 +29,42 @@ const buttonsData: ButtonItem[] = [
 const InicioScreen: React.FC = () => {
   const navigation = useNavigation<InicioScreenNavigationProp>();
 
-  const renderButton = ({ item }: { item: ButtonItem }) => (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => navigation.navigate(item.screen)}
-    >
-      <Ionicons name={item.icon} size={50} color={Colors.iconColor} />
-      <Text style={styles.buttonText}>{item.title}</Text>
-    </TouchableOpacity>
-  );
-
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={buttonsData}
-        renderItem={renderButton}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        contentContainerStyle={styles.flatListContent}
-      />
-    </View>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.grid}>
+        {buttonsData.map((item) => (
+          <TouchableOpacity
+            key={item.id}
+            style={styles.button}
+            onPress={() => navigation.navigate(item.screen)}
+          >
+            <Ionicons name={item.icon as any} size={50} color={Colors.iconColor} />
+            <Text style={styles.buttonText}>{item.title}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 
 export default InicioScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1,
     backgroundColor: Colors.primary,
-    padding: 10,
+    paddingVertical: 20,
   },
-  flatListContent: {
-    alignItems: 'center',
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   button: {
     backgroundColor: Colors.secondary,
-    flex: 1,
     margin: 10,
+    width: '40%',
     height: 100,
-    maxWidth: '45%',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
@@ -77,5 +72,6 @@ const styles = StyleSheet.create({
   buttonText: {
     marginTop: 5,
     color: '#000',
+    textAlign: 'center',
   },
 });
