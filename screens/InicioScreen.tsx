@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { InicioStackParamList } from '../navigation/InicioStack';
+import { AuthContext } from '../contexts/AuthContext';
+import GridButton from '../components/ui/buttons/GridButton';
+
 
 type InicioScreenNavigationProp = StackNavigationProp<InicioStackParamList, 'InicioScreen'>;
 
@@ -13,34 +16,42 @@ interface ButtonItem {
   title: string;
   icon: string;
   screen: keyof InicioStackParamList;
+  requiresAuth: Boolean,
 }
 
 const buttonsData: ButtonItem[] = [
-  { id: '1', title: 'Screen One', icon: 'fast-food', screen: 'ScreenOne' },
-  { id: '2', title: 'Screen Two', icon: 'pizza', screen: 'ScreenTwo' },
-  { id: '3', title: 'Screen Three', icon: 'cafe', screen: 'ScreenThree' },
-  { id: '4', title: 'Screen Four', icon: 'beer', screen: 'ScreenFour' },
-  { id: '5', title: 'Screen Five', icon: 'ice-cream', screen: 'ScreenFive' },
-  { id: '6', title: 'Screen Six', icon: 'restaurant', screen: 'ScreenSix' },
-  { id: '7', title: 'Screen Seven', icon: 'wine', screen: 'ScreenSeven' },
-  { id: '8', title: 'Screen Eight', icon: 'nutrition', screen: 'ScreenEight' },
+  { id: '1', title: 'Screen One', icon: 'fast-food', screen: 'ScreenOne', requiresAuth: false },
+  { id: '2', title: 'Screen Two', icon: 'pizza', screen: 'ScreenTwo', requiresAuth: false },
+  { id: '3', title: 'Screen Three', icon: 'cafe', screen: 'ScreenThree', requiresAuth: false },
+  { id: '4', title: 'Screen Four', icon: 'beer', screen: 'ScreenFour', requiresAuth: false },
+  { id: '5', title: 'Screen Five', icon: 'ice-cream', screen: 'ScreenFive', requiresAuth: false },
+  { id: '6', title: 'Screen Six', icon: 'restaurant', screen: 'ScreenSix', requiresAuth: false },
+  { id: '7', title: 'Screen Seven', icon: 'wine', screen: 'ScreenSeven', requiresAuth: false },
+  { id: '8', title: 'Secret Screen', icon: 'lock-closed', screen: 'SecretScreen', requiresAuth: true },
 ];
 
 const InicioScreen: React.FC = () => {
   const navigation = useNavigation<InicioScreenNavigationProp>();
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const handlePress = (item: ButtonItem) => {
+    if (item.requiresAuth && !isAuthenticated) {
+      navigation.navigate('Login'); // Redirect to LoginScreen
+    } else {
+      navigation.navigate(item.screen);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.grid}>
         {buttonsData.map((item) => (
-          <TouchableOpacity
+          <GridButton
             key={item.id}
-            style={styles.button}
-            onPress={() => navigation.navigate(item.screen)}
-          >
-            <Ionicons name={item.icon as any} size={50} color={Colors.iconColor} />
-            <Text style={styles.buttonText}>{item.title}</Text>
-          </TouchableOpacity>
+            title={item.title}
+            icon={item.icon}
+            onPress={() => handlePress(item)}
+          />
         ))}
       </View>
     </ScrollView>

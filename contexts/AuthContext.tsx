@@ -1,6 +1,7 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { User } from '../types/User';
 import authService from '../services/authService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextProps {
   user: User | null;
@@ -19,9 +20,32 @@ export const AuthContext = createContext<AuthContextProps>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
+  useEffect(() => {
+    // Load token and user data from AsyncStorage
+    const loadUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        const userData = token ? JSON.parse(await AsyncStorage.getItem('userData') || '{}') : null;
+        if (token && userData) {
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error('Failed to load user data', error);
+      }
+    };
+
+    loadUserData();
+  }, []);
+
   const login = async (email: string, password: string) => {
     try {
-      const userData = await authService.login(email, password);
+      const response = await authService.login(email, password);
+      const { token, userData } = response;
+
+      // Save token and user data to AsyncStorage
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('userData', JSON.stringify(userData));
+
       setUser(userData);
     } catch (error) {
       console.error(error);
@@ -29,7 +53,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    // Clear token and user data from AsyncStorage
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('userData');
     setUser(null);
   };
 

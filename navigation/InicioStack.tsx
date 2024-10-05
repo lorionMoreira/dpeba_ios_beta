@@ -9,6 +9,7 @@ import ScreenFive from '../screens/ScreenFive';
 import ScreenSix from '../screens/ScreenSix';
 import ScreenSeven from '../screens/ScreenSeven';
 import ScreenEight from '../screens/ScreenEight';
+import SecretScreen from '../screens/SecretScreen';
 
 export type InicioStackParamList = {
   InicioScreen: undefined;
@@ -20,6 +21,7 @@ export type InicioStackParamList = {
   ScreenSix: undefined;
   ScreenSeven: undefined;
   ScreenEight: undefined;
+  SecretScreen: undefined;
 };
 
 const Stack = createStackNavigator<InicioStackParamList>();
@@ -39,7 +41,7 @@ const InicioStackNavigator: React.FC = () => {
       <Stack.Screen name="ScreenFive" component={ScreenFive} options={{ title: 'Screen Five' }} />
       <Stack.Screen name="ScreenSix" component={ScreenSix} options={{ title: 'Screen Six' }} />
       <Stack.Screen name="ScreenSeven" component={ScreenSeven} options={{ title: 'Screen Seven' }} />
-      <Stack.Screen name="ScreenEight" component={ScreenEight} options={{ title: 'Screen Eight' }} />
+      <Stack.Screen name="SecretScreen" component={SecretScreen} options={{ title: 'Secret screen' }} />
     </Stack.Navigator>
   );
 };
