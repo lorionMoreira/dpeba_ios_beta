@@ -2,11 +2,17 @@
 import React, { useState, useContext } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, Alert } from 'react-native';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import CustomButton from '../ui/buttons/CustomButton';
+import LinkText from '../ui/text/LinkText';
 
 const LoginForm: React.FC = () => {
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, isAuthenticated } = useContext(AuthContext);
+
+  const navigation = useNavigation();
 
   const handleLogin = async () => {
     try {
@@ -17,29 +23,38 @@ const LoginForm: React.FC = () => {
     }
   };
 
+  const handleRegister = () => {
+    navigation.navigate('Register');
+  };
+
+  const handleForgotPassword = () => {
+    Alert.alert('Forgot Password', 'Password reset functionality will be implemented soon.');
+  };
+
   return (
     <View style={styles.container}>
-      {isAuthenticated ? (
-        <Text>You are already logged in.</Text>
-      ) : (
-        <>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize='none'
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Senha"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-          />
-          <Button title="Login" onPress={handleLogin} />
-        </>
-      )}
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Senha"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        style={styles.input}
+      />
+      <CustomButton title="Login" onPress={handleLogin} />
+      <CustomButton
+        title="Register"
+        onPress={handleRegister}
+        style={styles.registerButton}
+        textStyle={styles.registerButtonText}
+      />
+      <LinkText text="Forgot Password" onPress={handleForgotPassword} />
     </View>
   );
 };
@@ -48,17 +63,24 @@ export default LoginForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-     alignItems: 'center',
-     justifyContent: 'center',
-     padding: 20,
+    width: '80%',
+    alignItems: 'center',
+    marginTop: 50,
   },
   input: {
     width: '100%',
     padding: 10,
-     marginVertical: 5,
-     borderWidth: 1,
-     borderColor: '#ccc',
-     borderRadius: 5,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  registerButton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#008000',
+  },
+  registerButtonText: {
+    color: '#008000',
   },
 });
