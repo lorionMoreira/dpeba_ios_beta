@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, GestureResponderEvent } from 'react-native';
+import Colors from '../../../constants/Colors';
 
 interface LinkTextProps {
   text: string;

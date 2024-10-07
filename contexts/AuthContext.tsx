@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { User } from '../types/User';
-import authService from '../services/authService';
+import { login as authLogin, register as authRegister } from '../services/authService'; // Import named exports
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextProps {
@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await authService.login(email, password);
+      const response = await authLogin(email, password); // Use authLogin from authService
       const { token, userData } = response;
 
       // Save token and user data to AsyncStorage

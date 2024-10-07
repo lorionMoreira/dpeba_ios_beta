@@ -3,7 +3,7 @@ import config from '../config/config';
 
 const { API_URL, REGISTER_URL, FORGOT_PASSWORD_URL } = config;
 
-const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(API_URL, {
         email,
@@ -16,7 +16,7 @@ const login = async (email: string, password: string) => {
     }
   };
 
-  const register = async (userData: { name: string; cpf: string; email: string; senha: string }) => {
+  export const register = async (userData: { name: string; cpf: string; email: string; senha: string }) => {
     try {
       const response = await axios.post(REGISTER_URL, userData);
       return response.data;
@@ -25,7 +25,3 @@ const login = async (email: string, password: string) => {
     }
   };
   
-  export default {
-    login,
-    register
-  };

@@ -5,14 +5,18 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../ui/buttons/CustomButton';
 import LinkText from '../ui/text/LinkText';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../navigation/BottomNavigation';
+
+type NavigationProp = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
 const LoginForm: React.FC = () => {
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login, isAuthenticated } = useContext(AuthContext);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   const handleLogin = async () => {
     try {
@@ -24,7 +28,7 @@ const LoginForm: React.FC = () => {
   };
 
   const handleRegister = () => {
-    navigation.navigate('Register');
+    navigation.navigate('RegisterScreen');
   };
 
   const handleForgotPassword = () => {

@@ -4,18 +4,18 @@ import { useNavigation } from '@react-navigation/native';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { InicioStackParamList } from '../navigation/InicioStack';
+import { RootStackParamList } from '../navigation/BottomNavigation';
 import { AuthContext } from '../contexts/AuthContext';
 import GridButton from '../components/ui/buttons/GridButton';
 
 
-type InicioScreenNavigationProp = StackNavigationProp<InicioStackParamList, 'InicioScreen'>;
+type InicioScreenNavigationProp = StackNavigationProp<RootStackParamList, 'InicioScreen'>;
 
 interface ButtonItem {
   id: string;
   title: string;
   icon: string;
-  screen: keyof InicioStackParamList;
+  screen: keyof RootStackParamList;
   requiresAuth: Boolean,
 }
 
@@ -32,11 +32,12 @@ const buttonsData: ButtonItem[] = [
 
 const InicioScreen: React.FC = () => {
   const navigation = useNavigation<InicioScreenNavigationProp>();
+  
   const { isAuthenticated } = useContext(AuthContext);
 
   const handlePress = (item: ButtonItem) => {
     if (item.requiresAuth && !isAuthenticated) {
-      navigation.navigate('Login'); // Redirect to LoginScreen
+      navigation.navigate('LoginScreen'); // Redirect to LoginScreen
     } else {
       navigation.navigate(item.screen);
     }

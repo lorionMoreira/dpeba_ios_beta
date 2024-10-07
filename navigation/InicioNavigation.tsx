@@ -11,23 +11,11 @@ import ScreenSeven from '../screens/ScreenSeven';
 import ScreenEight from '../screens/ScreenEight';
 import SecretScreen from '../screens/SecretScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import LoginScreen from '../screens/LoginScreen';
+import { RootStackParamList } from '../navigation/BottomNavigation';
 
-export type InicioStackParamList = {
-  InicioScreen: undefined;
-  ScreenOne: undefined;
-  ScreenTwo: undefined;
-  ScreenThree: undefined;
-  ScreenFour: undefined;
-  ScreenFive: undefined;
-  ScreenSix: undefined;
-  ScreenSeven: undefined;
-  ScreenEight: undefined;
-  SecretScreen: undefined;
-  Login: undefined;
-  Register: undefined;
-};
 
-const Stack = createStackNavigator<InicioStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const InicioStackNavigator: React.FC = () => {
   return (
@@ -38,7 +26,7 @@ const InicioStackNavigator: React.FC = () => {
         options={{ title: 'Início' }}
       />
       <Stack.Screen
-        name="Register"
+        name="RegisterScreen"
         component={RegisterScreen}
         options={{ title: 'Register' }}
       />
@@ -50,6 +38,7 @@ const InicioStackNavigator: React.FC = () => {
       <Stack.Screen name="ScreenSix" component={ScreenSix} options={{ title: 'Screen Six' }} />
       <Stack.Screen name="ScreenSeven" component={ScreenSeven} options={{ title: 'Screen Seven' }} />
       <Stack.Screen name="SecretScreen" component={SecretScreen} options={{ title: 'Secret screen' }} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ title: 'Secret screen' }} />
     </Stack.Navigator>
   );
 };

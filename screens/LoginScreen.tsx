@@ -1,13 +1,13 @@
 // screens/LoginScreen.tsx
 import React, { useContext } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
-import LoginForm from '../components/Auth/LoginForm';
+import LoginForm from '../components/logic/LoginForm';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import { InicioStackParamList } from '../navigation/InicioStack';
+import { RootStackParamList } from '../navigation/BottomNavigation';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-type NavigationProp = StackNavigationProp<InicioStackParamList, 'SecretScreen'>;
+type NavigationProp = StackNavigationProp<RootStackParamList, 'SecretScreen'>;
 
 const LoginScreen: React.FC = () => {
   const { isAuthenticated } = useContext(AuthContext);
